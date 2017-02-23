@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+    <head>
+        <title>ESLint Report</title>
+        <style>
+            body {
+                font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;
+                font-size:16px;
+                font-weight:normal;
+                margin:0;
+                padding:0;
+                color:#333
+            }
+            #overview {
+                padding:20px 30px
+            }
+            td, th {
+                padding:5px 10px
+            }
+            h1 {
+                margin:0
+            }
+            table {
+                margin:30px;
+                width:calc(100% - 60px);
+                max-width:1000px;
+                border-radius:5px;
+                border:1px solid #ddd;
+                border-spacing:0px;
+            }
+            th {
+                font-weight:400;
+                font-size:normal;
+                text-align:left;
+                cursor:pointer
+            }
+            td.clr-1, td.clr-2, th span {
+                font-weight:700
+            }
+            th span {
+                float:right;
+                margin-left:20px
+            }
+            th span:after {
+                content:"";
+                clear:both;
+                display:block
+            }
+            tr:last-child td {
+                border-bottom:none
+            }
+            tr td:first-child, tr td:last-child {
+                color:#9da0a4
+            }
+            #overview.bg-0, tr.bg-0 th {
+                color:#468847;
+                background:#dff0d8;
+                border-bottom:1px solid #d6e9c6
+            }
+            #overview.bg-1, tr.bg-1 th {
+                color:#f0ad4e;
+                background:#fcf8e3;
+                border-bottom:1px solid #fbeed5
+            }
+            #overview.bg-2, tr.bg-2 th {
+                color:#b94a48;
+                background:#f2dede;
+                border-bottom:1px solid #eed3d7
+            }
+            td {
+                border-bottom:1px solid #ddd
+            }
+            td.clr-1 {
+                color:#f0ad4e
+            }
+            td.clr-2 {
+                color:#b94a48
+            }
+            td a {
+                color:#3a33d1;
+                text-decoration:none
+            }
+            td a:hover {
+                color:#272296;
+                text-decoration:underline
+            }
+        </style>
+    </head>
+    <body>
+        <div id="overview" class="bg-2">
+            <h1>ESLint Report</h1>
+            <div>
+                <span>7 problems (5 errors, 2 warnings)</span> - Generated on Thu Feb 23 2017 01:25:40 GMT+0000 (GMT)
+            </div>
+        </div>
+        <table>
+            <tbody>
+                <tr class="bg-2" data-group="f-0">
+    <th colspan="4">
+        [+] /Users/carlospereira/Desktop/Home/cx3_7/projects/final_project/get_lost_express/bin/www
+        <span>7 problems (5 errors, 2 warnings)</span>
+    </th>
+</tr>
+<tr style="display:none" class="f-0">
+    <td>7:1</td>
+    <td class="clr-2">Error</td>
+    <td>Expected empty line after import statement not followed by another import.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/import/newline-after-import" target="_blank">import/newline-after-import</a>
+    </td>
+</tr>
+
+<tr style="display:none" class="f-0">
+    <td>15:14</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;normalizePort&#39; was used before it was defined.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/no-use-before-define" target="_blank">no-use-before-define</a>
+    </td>
+</tr>
+
+<tr style="display:none" class="f-0">
+    <td>29:20</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;onError&#39; was used before it was defined.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/no-use-before-define" target="_blank">no-use-before-define</a>
+    </td>
+</tr>
+
+<tr style="display:none" class="f-0">
+    <td>30:24</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;onListening&#39; was used before it was defined.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/no-use-before-define" target="_blank">no-use-before-define</a>
+    </td>
+</tr>
+
+<tr style="display:none" class="f-0">
+    <td>37:9</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;port&#39; is already declared in the upper scope.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/no-shadow" target="_blank">no-shadow</a>
+    </td>
+</tr>
+
+<tr style="display:none" class="f-0">
+    <td>68:7</td>
+    <td class="clr-1">Warning</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/no-console" target="_blank">no-console</a>
+    </td>
+</tr>
+
+<tr style="display:none" class="f-0">
+    <td>72:7</td>
+    <td class="clr-1">Warning</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="http://eslint.org/docs/rules/no-console" target="_blank">no-console</a>
+    </td>
+</tr>
+
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            var groups = document.querySelectorAll("tr[data-group]");
+            for (i = 0; i < groups.length; i++) {
+                groups[i].addEventListener("click", function() {
+                    var inGroup = document.getElementsByClassName(this.getAttribute("data-group"));
+                    this.innerHTML = (this.innerHTML.indexOf("+") > -1) ? this.innerHTML.replace("+", "-") : this.innerHTML.replace("-", "+");
+                    for (var j = 0; j < inGroup.length; j++) {
+                        inGroup[j].style.display = (inGroup[j].style.display !== "none") ? "none" : "table-row";
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
