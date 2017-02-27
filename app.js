@@ -1,13 +1,18 @@
 import express from 'express';
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-var test = require('./routes/test');
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import session from 'express-session';
+import expressValidator from 'express-validator';
+import passport from 'passport';
+import flash from 'connect-flash';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import jade from 'jade';
+import {Strategy as LocalStrategy} from 'passport-local';
+import index from './routes/index';
+import users from './routes/users';
+import test from './routes/test';
 
 let app = express();
 
@@ -22,6 +27,37 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+app.use(flash());
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+            , root    = namespace.shift()
+            , formParam = root;
+
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
+    }
+}));
+
+
+
 
 app.use('/', index);
 app.use('/users', users);
@@ -45,7 +81,14 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//Global variables passport
+app.use((req, res, next)=>{
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
 
+});
 
 
 

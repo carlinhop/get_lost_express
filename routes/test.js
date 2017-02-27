@@ -1,7 +1,6 @@
-let express = require('express');
+import express  from 'express';
+import {MongoClient} from 'mongodb';
 let router = express.Router();
-let MongoClient = require('mongodb').MongoClient;
-
 const url = "mongodb://localhost:27017/cities";
 
 router.get('/', function (req, res) {
