@@ -1,13 +1,39 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let MongoClient = require('mongodb').MongoClient;
 
+const url = "mongodb://localhost:27017/cities";
 
 router.get('/', function (req, res) {
-		let data = JSON.stringify({text: "hola"});
-		console.log(data);
-      res.write(data);
-      
-      res.status(200).end();
+    MongoClient.connect(url, function (err, db) {
+        let collection = db.collection('data');
+        collection.find({}).toArray(function (err, docs) {
+            res.json(docs);
+            db.close();
+        });
+    });
 });
+
+router.post('/', function (req, res) {
+
+    MongoClient.connect(url, function (err, db) {
+        let collection = db.collection('data');
+        console.log(req.body);
+        collection.insert(
+            {
+                itinerary: req.body.itinerary
+            }
+        );
+
+        collection.find({}).toArray(function (err, docs) {
+
+            res.write(JSON.stringify(docs));
+            //console.log(res.body);
+            res.status(200).end();
+            db.close();
+        })
+    });
+});
+
 
 module.exports = router;
