@@ -13,6 +13,11 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import index from './routes/index';
 import users from './routes/users';
 import test from './routes/test';
+import mongoose from 'mongoose';
+
+mongoose.connect('mongodb://localhost/cities');
+
+const db = mongoose.connection;
 
 let app = express();
 
