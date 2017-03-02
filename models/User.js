@@ -44,7 +44,7 @@ let comparePassword = function(cadidatePassword, hash, callback) {
 }
 
 let getUserById = function(id, callback) {
-    User.findUserById(id, callback);
+    User.findById(id, callback);
 };
 
 export { User, createUser, getUserByUsername, comparePassword, getUserById };
