@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
 
         createUser(newUser, function(err, user) {
             if (err) throw err;
-            res.write("success");
+            res.send(JSON.stringify({ message: "success" }));
             res.status(200).end();
 
 
@@ -92,8 +92,16 @@ router.post('/login',
         // If this function gets called, authentication was successful.
         // `req.user` contains the authenticated user.
 
-        res.write("logged in");
+        res.send(JSON.stringify({ message: "logged in" }));
         res.status(200).end();
     });
+
+
+router.get('/logout', function(req, res){
+    req.logout();
+    res.send(JSON.stringify({ message: "logged out" }));
+    res.status(200).end();
+
+})
 
 module.exports = router;
