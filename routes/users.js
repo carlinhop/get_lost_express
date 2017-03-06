@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
 
         createUser(newUser, function(err, user) {
             if (err) throw err;
-            res.send(JSON.stringify({ message: "success" }));
+            res.send(JSON.stringify({ message: "success", user: res.locals.user}));
             res.status(200).end();
 
 
@@ -56,7 +56,7 @@ passport.use(new LocalStrategy(
 
             if (err) throw err;
             if (!user) {
-                return done(null, false, { message: "Unknown user" })
+                return done(null, false, { message: "Unknown user",  })
             }
 
             comparePassword(password, user.password, (err, isMatch) => {
@@ -91,15 +91,15 @@ router.post('/login',
     function(req, res) {
         // If this function gets called, authentication was successful.
         // `req.user` contains the authenticated user.
-
-        res.send(JSON.stringify({ message: "logged in" }));
+        console.log(res.locals);
+        res.send(JSON.stringify({ message: "logged in", user: req.user}));
         res.status(200).end();
     });
 
 
 router.get('/logout', function(req, res){
     req.logout();
-    res.send(JSON.stringify({ message: "logged out" }));
+    res.send(JSON.stringify({ message: "logged out", user: res.locals.user  }));
     res.status(200).end();
 
 })

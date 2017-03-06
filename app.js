@@ -9,7 +9,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import jade from 'jade';
-import {Strategy as LocalStrategy} from 'passport-local';
+import { Strategy as LocalStrategy } from 'passport-local';
 import index from './routes/index';
 import users from './routes/users';
 import test from './routes/test';
@@ -46,22 +46,30 @@ app.use(passport.session());
 
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
-        var namespace = param.split('.')
-            , root    = namespace.shift()
-            , formParam = root;
+        var namespace = param.split('.'),
+            root = namespace.shift(),
+            formParam = root;
 
-        while(namespace.length) {
+        while (namespace.length) {
             formParam += '[' + namespace.shift() + ']';
         }
         return {
-            param : formParam,
-            msg   : msg,
-            value : value
+            param: formParam,
+            msg: msg,
+            value: value
         };
     }
 }));
 
+//Global variables passport
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
 
+});
 
 
 app.use('/', index);
@@ -70,30 +78,23 @@ app.use('/test', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
-//Global variables passport
-app.use((req, res, next)=>{
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    next();
 
-});
 
 
 
