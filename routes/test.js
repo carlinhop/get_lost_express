@@ -15,22 +15,61 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
 
-    console.log(res);
+
     MongoClient.connect(url, function(err, db) {
         let collection = db.collection('data');
-        console.log(req.body);
-        collection.insert({
-            itinerary: req.body.itinerary,
-            user: res.locals.user.username
+        let users = db.collection('users');
+        let user = users.find({ username: res.locals.user.username });
+
+        collection.find({ user: res.locals.user.username }).toArray((err, docs) => {
+
+            if (err) throw err
+
+
+            if (docs.length === 0) {
+                console.log("no docs");
+                collection.insert({
+                    itinerary: req.body.itinerary,
+                    user: res.locals.user.username
+                });
+
+                collection.find({ user: res.locals.user.username }).toArray(function(err, docs) {
+
+                    res.write(JSON.stringify(docs));
+                    //console.log(res.body);
+                    res.status(200).end();
+                    db.close();
+                });
+
+
+
+            } else {
+
+                collection.find({ user: res.locals.user.username }).toArray((err, docs) => {
+
+                    if (err) throw err
+
+                    collection.update({ user: res.locals.user.username }, {
+                        itinerary: req.body.itinerary,
+                        user: res.locals.user.username
+                    });
+
+                    collection.find({ user: res.locals.user.username }).toArray(function(err, docs) {
+
+                        res.write(JSON.stringify(docs));
+                        //console.log(res.body);
+                        res.status(200).end();
+                        db.close();
+                    });
+
+                });
+
+
+            }
+
+
         });
 
-        collection.find({}).toArray(function(err, docs) {
-
-            res.write(JSON.stringify(docs));
-            //console.log(res.body);
-            res.status(200).end();
-            db.close();
-        })
     });
 });
 
