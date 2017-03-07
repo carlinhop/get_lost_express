@@ -15,11 +15,13 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
 
+    console.log(res);
     MongoClient.connect(url, function(err, db) {
         let collection = db.collection('data');
         console.log(req.body);
         collection.insert({
-            itinerary: req.body.itinerary
+            itinerary: req.body.itinerary,
+            user: res.locals.user.username
         });
 
         collection.find({}).toArray(function(err, docs) {

@@ -69,9 +69,6 @@ passport.use(new LocalStrategy(
             });
 
         });
-
-
-
     }
 ));
 
