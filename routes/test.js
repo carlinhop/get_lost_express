@@ -6,8 +6,11 @@ const url = "mongodb://localhost:27017/cities";
 router.get('/', function(req, res) {
     MongoClient.connect(url, function(err, db) {
         let collection = db.collection('data');
-        collection.find({}).toArray(function(err, docs) {
-            res.json(docs);
+        collection.find({user: res.locals.user.username }).toArray(function(err, docs) {
+            if (err) throw err;
+            console.log(docs[0].itinerary);
+            res.write(JSON.stringify({cities: docs[0].itinerary}));
+            res.status(200).end();
             db.close();
         });
     });
