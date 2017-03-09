@@ -6,13 +6,22 @@ const url = "mongodb://localhost:27017/cities";
 router.get('/', function(req, res) {
     MongoClient.connect(url, function(err, db) {
         let collection = db.collection('data');
-        collection.find({user: res.locals.user.username }).toArray(function(err, docs) {
-            if (err) throw err;
-            console.log(docs[0].itinerary);
-            res.write(JSON.stringify({cities: docs[0].itinerary}));
-            res.status(200).end();
-            db.close();
+
+        collection.find({ user: res.locals.user.username }).toArray(function(err, docs) {
+            try {
+                console.log(docs[0].itinerary);
+                res.write(JSON.stringify({ cities: docs[0].itinerary }));
+                res.status(200).end();
+            } catch (err) {
+                console.log(err);
+                res.write(JSON.stringify({ cities: [] }));
+                res.status(200).end();
+            } finally {
+                db.close();
+            }
         });
+
+
     });
 });
 
@@ -27,8 +36,6 @@ router.post('/', function(req, res) {
         collection.find({ user: res.locals.user.username }).toArray((err, docs) => {
 
             if (err) throw err
-
-
             if (docs.length === 0) {
                 console.log("no docs");
                 collection.insert({
@@ -43,8 +50,6 @@ router.post('/', function(req, res) {
                     res.status(200).end();
                     db.close();
                 });
-
-
 
             } else {
 
